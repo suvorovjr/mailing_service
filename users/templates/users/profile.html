@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load users_tags %}
+{% block content %}
+<div class="row">
+    <div style="text-align:center; margin-top:20px" class="col-lg-6 mx-auto">
+        <img style="width:300px; height:300px; margin:auto;" class="bd-placeholder-img rounded-circle border"
+             src="{{ object.avatar|my_avatar }}">
+        {% if object_list.user.first_name and object_list.user.last_name %}
+        <h2 class="fw-normal">{{ object_list.user.first_name }} {{ object_list.user.last_name }}</h2>
+        {% else %}
+        <h2 class="fw-normal">{{ object_list.user.email }}</h2>
+        {% endif %}
+        <a style="margin-top: 10px;" class="btn btn-secondary" href="#">Редактировать
+            профиль</a>
+    </div>
+    <h2 class="display-5 text-center p-3">Мои рассылки</h2>
+</div>
+{% endblock %}
