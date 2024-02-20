@@ -1,9 +1,10 @@
 from users.apps import UsersConfig
+from users.views import LoginView, UserCreateView
 from django.urls import path
-from users.views import index
 
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path('', index, name='registration'),
+    path('auth/', UserCreateView.as_view(), name='auth'),
+    path('login/', LoginView.as_view(), name='login'),
 ]

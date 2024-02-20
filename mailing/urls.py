@@ -1,5 +1,8 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from mailing.apps import MailingConfig
+from mailing.views import index
+
+app_name = MailingConfig.name
 
 urlpatterns = [
     path('', index, name='index'),

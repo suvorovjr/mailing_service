@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
+{% load users_tags %}
 {% block content %}
 <main class="form-signin w-100 m-auto">
     <div class="container">
         <div class="row row-centered">
             <div class="col-4 mt-5 mx-auto">
                 <form method="post">
-                    <h1 class="h3 mb-3 fw-normal center">Регистрация</h1>
-
+                    <h1 class="h3 mb-3 fw-normal text-center">Регистрация</h1>
                     <div class="form-floating">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        {{ form.email|add_id:'floatingInput' }}
                         <label for="floatingInput">Email</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword1" placeholder="Пароль">
+                        {{ form.password1|add_id:'floatingPassword1' }}
                         <label for="floatingPassword1">Введите пароль</label>
                     </div>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword2" placeholder="Повторите пароль">
+                        {{ form.password2|add_id:'floatingPassword2' }}
                         <label for="floatingPassword2">Подтвердите пароль</label>
                     </div>
 
