@@ -25,7 +25,8 @@
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ user.avatar }}|my_avatar" alt="mdo" width="32" height="32" class="rounded-circle">
+                    {% user_avatar as avatar_url %}
+                    <img src="{{ avatar_url|my_avatar }}" alt="mdo" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small">
                     <li><a class="dropdown-item" href="#">Новая рассылка</a></li>
