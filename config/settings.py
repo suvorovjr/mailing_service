@@ -135,6 +135,7 @@ EMAIL_HOST_USER = "pglavan1998@mail.ru"
 EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTH_USER_MODEL = 'users.User'
 LOGOUT_REDIRECT_URL = '/'
