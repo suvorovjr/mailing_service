@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="container mt-3">
+    <div class="card my-4 mx-auto">
+        <div class="card-body m-2 m-md-4">
+            <article class="row">
+                <div class="col-5"><img src="{{ object.imagine }}" class="img-fluid" alt=""></div>
+                <div class="col-7">
+                    <section class="teacher=info">
+
+                        <h1 class="h2">{{ object.title }}</h1>
+                        <p><span class="badge badge-secondary mr-2">Новости </span>Просмотры: {{ object.count_views }}
+                            Дата публикации: {{ object.created_date }}</p>
+                        <p>{{ object.description }}</p>
+
+                    </section>
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+{% endblock %}
