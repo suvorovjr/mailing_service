@@ -1,8 +1,9 @@
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
+from blog.models import Blog
 
 
 class BlogListView(ListView):
-    pass
+    model = Blog
 
 
 class BlogCreateView(CreateView):
