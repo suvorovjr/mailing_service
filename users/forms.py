@@ -23,14 +23,6 @@ class LoginForm(StylesMixin, AuthenticationForm):
         fields = ('email', 'password')
 
 
-class CustomPasswordResetForm(StylesMixin, PasswordResetForm):
-    fields = ('email',)
-
-
-class CustomSetPasswordForm(StylesMixin, SetPasswordForm):
-    fields = ('new_password1', 'new_password2',)
-
-
 class ProfileUpdateForm(StylesMixin, UserChangeForm):
     class Meta:
         model = User
@@ -39,3 +31,11 @@ class ProfileUpdateForm(StylesMixin, UserChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password'].widget = forms.HiddenInput()
+
+
+class CustomPasswordResetForm(StylesMixin, PasswordResetForm):
+    fields = ('email',)
+
+
+class CustomSetPasswordForm(StylesMixin, SetPasswordForm):
+    fields = ('new_password1', 'new_password2',)
