@@ -7,7 +7,7 @@
     <title>Title</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header class="p-3 text-bg-dark">
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -48,8 +48,9 @@
 </header>
 {% block content %}
 {% endblock %}
+<div class="wrapper flex-grow-1"></div>
 <div class="container">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top mx-auto">
         <p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 - {% now 'Y' %} Sender, Inc</p>
 
         <a href="/"
