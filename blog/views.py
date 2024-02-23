@@ -28,6 +28,7 @@ class BlogDetailView(DetailView):
 
 class BlogUpdateView(UpdateView):
     model = Blog
+    form_class = BlogForm
 
     def form_valid(self, form):
         if form.is_valid():
@@ -38,4 +39,5 @@ class BlogUpdateView(UpdateView):
 
 
 class BlogDeleteView(DeleteView):
-    pass
+    model = Blog
+    success_url = reverse_lazy('blog:list')

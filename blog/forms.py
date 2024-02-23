@@ -7,3 +7,4 @@ class BlogForm(StylesMixin, forms.ModelForm):
     class Meta:
         model = Blog
         fields = ('title', 'description', 'imagine')
+
