@@ -30,6 +30,10 @@ class BlogUpdateView(UpdateView):
     model = Blog
     form_class = BlogForm
 
+    def get_success_url(self):
+        slug = self.object.slug
+        return reverse_lazy('blog:detail', kwargs={'slug': slug})
+
     def form_valid(self, form):
         if form.is_valid():
             new_blog = form.save()
