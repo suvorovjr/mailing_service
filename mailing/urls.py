@@ -1,9 +1,9 @@
 from django.urls import path
 from mailing.apps import MailingConfig
-from mailing.views import index
+from mailing.views import IndexView
 
 app_name = MailingConfig.name
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', IndexView.as_view(), name='index'),
 ]
