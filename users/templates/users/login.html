@@ -16,10 +16,14 @@
                         {{ form.password|add_id:'Password1' }}
                         <label for="Password1">Введите пароль</label>
                     </div>
+                    {% if form.non_field_errors %}
+                    <small>{{ form.non_field_errors }}</small>
+                    {% else %}
                     <div class="form-check text-start my-3">
                         <label class="form-check-label">
                         </label>
                     </div>
+                    {% endif %}
                     <button class="btn btn-primary w-100 py-2" type="submit">Вход</button>
                 </form>
                 <p class="text-center mt-4 mb-0"><small>Забыли свой пароль?<a href="{%url 'users:password_reset'%}">
