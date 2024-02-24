@@ -46,4 +46,14 @@ class Mailing(models.Model):
 
 
 class Log(models.Model):
-    pass
+    date_of_mail = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время отправки')
+    status_of_mail = models.BooleanField(verbose_name='Статус попытки')
+    answer = models.TextField(verbose_name='Ответ сервера', **NULLABLE)
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, **NULLABLE)
+
+    def __str__(self):
+        return f'{self.date_of_mail}'
+
+    class Meta:
+        verbose_name = 'Лог'
+        verbose_name_plural = 'Логи'
