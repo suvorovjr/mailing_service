@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView, DetailView
 from mailing.models import Mailing, Client
 from blog.models import Blog
 from mailing.forms import MailingForm, ClientForm
@@ -18,6 +18,44 @@ class IndexView(TemplateView):
 class MailingCreateView(CreateView):
     model = Mailing
     form_class = MailingForm
+    success_url = reverse_lazy('mailing:list')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['clients'].queryset = self.request.user.client_set.all()
+        return form
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save()
+            self.object.user = self.request.user
+            self.object.user.save()
+        return super().form_valid(form)
+
+
+class MailingListView(ListView):
+    model = Mailing
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        user = self.request.user
+        context_data['object_list'] = Mailing.objects.filter(user=user)
+        return context_data
+
+
+class MailingDetailView(DetailView):
+    model = Mailing
+
+
+class MailingUpdateView(UpdateView):
+    model = Mailing
+    success_url = reverse_lazy('mailing:list')
+
+
+class MailingDeleteView(DeleteView):
+    model = Mailing
+    success_url = reverse_lazy('mailing:list')
 
 
 class ClientCreateView(CreateView):
