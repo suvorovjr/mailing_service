@@ -1,3 +1,49 @@
 from django.db import models
+from users.models import User, NULLABLE
 
-# Create your models here.
+
+class Client(models.Model):
+    email = models.EmailField(verbose_name='Email')
+    full_name = models.CharField(max_length=255, verbose_name='Полное имя')
+    comment = models.TextField(verbose_name='Комментарий')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', **NULLABLE)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+
+
+class Mailing(models.Model):
+    FREQUENCY_CHOICES = (
+        ('daily', 'Раз в день'),
+        ('weekly', 'Раз в неделю'),
+        ('monthly', 'Раз в месяц'),
+    )
+    STATUS_CHOICES = (
+        ('created', 'Создана'),
+        ('started', 'Запущена'),
+        ('completed', 'Завершена'),
+    )
+    start_mail = models.DateField(verbose_name='Дата начала рассылки')
+    end_mail = models.DateField(verbose_name='Дата окончания рассылки')
+    mail_time = models.TimeField(verbose_name='Время рассылки')
+    status_mail = models.CharField(max_length=20, choices=STATUS_CHOICES, verbose_name='Статус рассылки')
+    frequency_mail = models.CharField(max_length=20, choices=FREQUENCY_CHOICES, verbose_name='Периодичность рассылки')
+    clients = models.ManyToManyField(Client, verbose_name='Клиенты', related_name='mailings')
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE, **NULLABLE)
+    mail_topic = models.CharField(max_length=255, verbose_name='Тема письма')
+    mail_message = models.TextField(verbose_name='Тело письма')
+
+    def __str__(self):
+        return
+
+    class Meta:
+        verbose_name = 'Рассылка'
+        verbose_name_plural = 'Рассылки'
+
+
+class Log(models.Model):
+    pass
