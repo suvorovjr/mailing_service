@@ -6,12 +6,12 @@
             <div class="col-8 mt-5 text-center mx-auto">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <h1 class="h1 mb-3 fw-normal">Удаление новости</h1>
-                    <h4 class="h4 mb-3 fw-normal">Вы дейтсвительно хотите удалить новость {{ object.title }}
+                    <h1 class="h1 mb-3 fw-normal">Удаление рассылки</h1>
+                    <h4 class="h4 mb-3 fw-normal">Вы дейтсвительно хотите удалить рассылку "{{ object.mail_topic }}"
                         ?
                         Если да, тогда нажмите кнопку "Удалить". В противном случае кнопку "Отмена".</h4>
                     <button type="submit" class="btn btn-danger">Подтвердить</button>
-                    <a class="btn btn-primary" href="{% url 'blog:list' %}">Отмена</a>
+                    <a class="btn btn-primary" href="{% url 'mailing:list' %}">Отмена</a>
                 </form>
             </div>
         </div>
