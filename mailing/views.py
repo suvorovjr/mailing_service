@@ -51,6 +51,7 @@ class MailingDetailView(DetailView):
 class MailingUpdateView(UpdateView):
     model = Mailing
     success_url = reverse_lazy('mailing:list')
+    form_class = MailingForm
 
 
 class MailingDeleteView(DeleteView):
