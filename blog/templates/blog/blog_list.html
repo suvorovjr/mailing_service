@@ -13,9 +13,13 @@
                         <h5 class="card-title">{{ object.title }}</h5>
                         <p class="card-text">{{ object.description|truncatechars:60 }}</p>
                         <a href="{% url 'blog:detail' object.slug %}" class="btn btn-primary mt-2">Подробнее</a>
+                        {% if perms.blog.change_blog %}
                         <a href="{% url 'blog:update' object.slug %}"
                            class="btn btn-outline-success mt-2">Редактировать</a>
+                        {% endif %}
+                        {% if perms.blog.delete_blog %}
                         <a href="{% url 'blog:delete' object.slug %}" class="btn btn-outline-danger mt-2">Удалить</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

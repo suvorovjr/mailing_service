@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from blog.forms import BlogForm
 from django.urls import reverse_lazy
 from blog.models import Blog
@@ -6,7 +7,8 @@ from pytils.translit import slugify
 from django.core.paginator import Paginator
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = 'blog.add_blog'
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:list')
@@ -46,7 +48,8 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'blog.change_blog'
     model = Blog
     form_class = BlogForm
 
@@ -62,6 +65,7 @@ class BlogUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = 'blog.delete_blog'
     model = Blog
     success_url = reverse_lazy('blog:list')
