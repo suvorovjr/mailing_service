@@ -39,7 +39,7 @@ class Mailing(models.Model):
     mail_message = models.TextField(verbose_name='Тело письма')
 
     def __str__(self):
-        return
+        return self.mail_topic
 
     class Meta:
         verbose_name = 'Рассылка'
