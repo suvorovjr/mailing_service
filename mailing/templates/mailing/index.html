@@ -4,6 +4,55 @@
 <main class="news-section section">
     <div class="container mt-4">
         <div class="row">
+            <div class="col-3 mx-auto">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                    <div class="card-header py-3 text-bg-primary border-primary">
+                        <h4 class="my-0 fw-normal text-center">Рассылок всего</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title text-center">{{ counters.mailing_count }}</h1>
+                        <ul class="list-unstyled mt-3 mb-4 text-center">
+                            <li>Столько рассылок</li>
+                            <li>которые повышают конверсии</li>
+                            <li>нашим пользователям</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 mx-auto">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                    <div class="card-header py-3 text-bg-primary border-primary">
+                        <h4 class="my-0 fw-normal text-center">Активных рассылок</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title text-center">{{ counters.mailing_active_count }}</h1>
+                        <ul class="list-unstyled mt-3 mb-4 text-center">
+                            <li>Из {{ counters.mailing_count }} рассылок {{ counters.mailing_active_count }} активных</li>
+                            <li>которые функционируют</li>
+                            <li>на благо наших пользователей</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 mx-auto">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                    <div class="card-header py-3 text-bg-primary border-primary">
+                        <h4 class="my-0 fw-normal text-center">Уникальных клиентов</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title text-center">{{ counters.clients_count }}</h1>
+                        <ul class="list-unstyled mt-3 mb-4 text-center">
+                            <li>{{ counters.clients_count }} клиентов</li>
+                            <li>регулярно получают письма с</li>
+                            <li>текстами наших пользователей</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="row">
             {% for object in blog_list %}
             <div class="col-4 mt-4">
                 <div class="card">

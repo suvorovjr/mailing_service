@@ -20,14 +20,29 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         if settings.CACHE_ENABLED:
-            key = 'blog_list'
-            blog_list = cache.get(key)
+            blog_key = 'blog_list'
+            count_key = 'counters'
+            blog_list = cache.get(blog_key)
+            counters = cache.get(count_key)
             if blog_list is None:
                 blog_list = Blog.objects.order_by('-created_date')[:3]
-                cache.set(key, blog_list)
+                cache.set(blog_key, blog_list)
+            if counters is None:
+                mailing_count = Mailing.objects.count()
+                mailing_active_count = Mailing.objects.filter(status_mail='started').count()
+                clients_count = Client.objects.values('email').distinct().count()
+                counters = {'mailing_count': mailing_count, 'mailing_active_count': mailing_active_count,
+                            'clients_count': clients_count}
+                cache.set(count_key, counters)
         else:
             blog_list = Blog.objects.order_by('-created_date')[:3]
+            mailing_count = Mailing.objects.count()
+            mailing_active_count = Mailing.objects.filter(status_mail='started').count()
+            clients_count = Client.objects.values('email').distinct().count()
+            counters = {'mailing_count': mailing_count, 'mailing_active_count': mailing_active_count,
+                        'clients_count': clients_count}
         context_data['blog_list'] = blog_list
+        context_data['counters'] = counters
         context_data['title'] = 'Главная'
         return context_data
 
