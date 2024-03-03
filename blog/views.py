@@ -13,6 +13,11 @@ class BlogCreateView(PermissionRequiredMixin, CreateView):
     form_class = BlogForm
     success_url = reverse_lazy('blog:list')
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = 'Создание статьи'
+        return context_data
+
     def form_valid(self, form):
         if form.is_valid():
             new_blog = form.save()
@@ -35,11 +40,17 @@ class BlogListView(ListView):
         except Exception as e:
             object_list = paginator.page(1)
         context_data['object_list'] = object_list
+        context_data['title'] = 'Статьи'
         return context_data
 
 
 class BlogDetailView(DetailView):
     model = Blog
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = f'Статья | {self.object.title[:25]}'
+        return context_data
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -52,6 +63,11 @@ class BlogUpdateView(PermissionRequiredMixin, UpdateView):
     permission_required = 'blog.change_blog'
     model = Blog
     form_class = BlogForm
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = f'Редактирование статьи | {self.object.title[:25]}'
+        return context_data
 
     def get_success_url(self):
         slug = self.object.slug
@@ -69,3 +85,8 @@ class BlogDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = 'blog.delete_blog'
     model = Blog
     success_url = reverse_lazy('blog:list')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = f'Удаление статьи | {self.object.title[:25]}'
+        return context_data
