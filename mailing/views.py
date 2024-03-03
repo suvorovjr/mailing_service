@@ -1,8 +1,15 @@
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from mailing.models import Mailing, Client
 from blog.models import Blog
 from mailing.forms import MailingForm, ClientForm
 from django.urls import reverse_lazy
+
+
+class IsAdminOrUserMixin(UserPassesTestMixin):
+    def test_func(self):
+        object = self.get_object()
+        return self.request.user == object.user or self.request.user.is_superuser
 
 
 class IndexView(TemplateView):
@@ -15,7 +22,7 @@ class IndexView(TemplateView):
         return context_data
 
 
-class MailingCreateView(CreateView):
+class MailingCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy('mailing:list')
@@ -33,7 +40,7 @@ class MailingCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MailingListView(ListView):
+class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
     paginate_by = 5
 
@@ -44,22 +51,22 @@ class MailingListView(ListView):
         return context_data
 
 
-class MailingDetailView(DetailView):
+class MailingDetailView(LoginRequiredMixin, DetailView):
     model = Mailing
 
 
-class MailingUpdateView(UpdateView):
+class MailingUpdateView(LoginRequiredMixin, IsAdminOrUserMixin, UpdateView):
     model = Mailing
     success_url = reverse_lazy('mailing:list')
     form_class = MailingForm
 
 
-class MailingDeleteView(DeleteView):
+class MailingDeleteView(LoginRequiredMixin, IsAdminOrUserMixin, DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing:list')
 
 
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mailing:list_client')
@@ -72,7 +79,7 @@ class ClientCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
 
     def get_context_data(self, **kwargs):
@@ -82,12 +89,12 @@ class ClientListView(ListView):
         return context_data
 
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(LoginRequiredMixin, IsAdminOrUserMixin, UpdateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mailing:list_client')
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(LoginRequiredMixin, IsAdminOrUserMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mailing:list_client')

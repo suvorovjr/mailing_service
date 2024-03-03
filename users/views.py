@@ -2,42 +2,38 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, \
     PasswordResetCompleteView
 from django.views.generic import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.crypto import get_random_string
 from django.shortcuts import redirect
 from users.services import send_verification_password
 from django.views.generic import CreateView, DetailView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from users.models import User
 from users.forms import UserForm, LoginForm, CustomPasswordResetForm, CustomSetPasswordForm, ProfileUpdateForm
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.core.mail import send_mail
 from django.urls import reverse
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
 
 
 class LoginView(BaseLoginView):
-    model = User
     template_name = 'users/login.html'
     form_class = LoginForm
 
 
 class UserCreateView(CreateView):
-    model = User
     template_name = 'users/signup.html'
     form_class = UserForm
-    success_url = reverse_lazy('users:auth')
+    success_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
-        self.object = form.save()
-        self.object.verification_token = get_random_string(30)
-        verification_link = f'http://{get_current_site(self.request)}/users/confirm/{self.object.verification_token}'
-        send_verification_password(self.object.email, verification_link)
+        user = form.save()
+        user.verification_token = get_random_string(30)
+        verification_link = f'http://{get_current_site(self.request)}/users/confirm/{user.verification_token}'
+        send_verification_password(user.email, verification_link)
+        user.save()
         return super().form_valid(form)
 
 
-class ProfileView(DetailView):
+class ProfileView(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'users/profile.html'
 
@@ -74,7 +70,7 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'users/password_reset_complete.html'
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = ProfileUpdateForm
     template_name = 'users/update_profile.html'
