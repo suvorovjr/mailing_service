@@ -51,6 +51,7 @@ class Log(models.Model):
     status_of_mail = models.BooleanField(verbose_name='Статус попытки')
     answer = models.TextField(verbose_name='Ответ сервера', **NULLABLE)
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, **NULLABLE)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return f'{self.date_of_mail}'
