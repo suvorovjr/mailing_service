@@ -18,11 +18,21 @@ class LoginView(BaseLoginView):
     template_name = 'users/login.html'
     form_class = LoginForm
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = 'Вход'
+        return context_data
+
 
 class UserCreateView(CreateView):
     template_name = 'users/signup.html'
     form_class = UserForm
     success_url = reverse_lazy('users:login')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = 'Регистрация'
+        return context_data
 
     def form_valid(self, form):
         user = form.save()
@@ -36,6 +46,11 @@ class UserCreateView(CreateView):
 class ProfileView(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'users/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = 'Профиль'
+        return context_data
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -75,6 +90,11 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProfileUpdateForm
     template_name = 'users/update_profile.html'
     success_url = reverse_lazy('users:profile')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = 'Редактирование профиля'
+        return context_data
 
     def get_object(self, queryset=None):
         return self.request.user
