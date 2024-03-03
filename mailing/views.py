@@ -104,14 +104,14 @@ class LogCreateView(CreateView):
     pass
 
 
-class LogListView(LoginRequiredMixin, IsAdminOrUserMixin, ListView):
+class LogListView(LoginRequiredMixin, ListView):
     model = Log
     paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         user = self.request.user
-        context_data['object_list'] = Mailing.objects.filter(user=user)
+        context_data['object_list'] = Log.objects.filter(user=user)
         return context_data
 
 

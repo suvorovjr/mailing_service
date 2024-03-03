@@ -19,7 +19,7 @@
                 <li><a href="{% url 'blog:list' %}" class="nav-link px-2 text-white">Блог</a></li>
                 <li><a href="{% url 'mailing:list' %}" class="nav-link px-2 text-white">Мои рассылки</a></li>
                 <li><a href="{% url 'mailing:list_client' %}" class="nav-link px-2 text-white">Мои клиенты</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Логи рассылки</a></li>
+                <li><a href="{% url 'mailing:list_log' %}" class="nav-link px-2 text-white">Логи рассылки</a></li>
             </ul>
             {% if user.is_authenticated %}
             <div class="dropdown text-end">
