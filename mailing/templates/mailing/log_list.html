@@ -1,0 +1,55 @@
+{% extends 'base.html' %}\
+{% load static %}
+{% block content %}
+<main class="news-section section">
+    <div class="container mt-4">
+        {% if object_list %}
+        <div class="row mt-3">
+            {% for object in object_list %}
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-header">Отправка № {{ forloop.counter }}<span class="badge bg-dark">{{ object.status_of_mail }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ object.mailing }}</h5>
+                        <p class="card-text">{{ object.answer|truncatechars:50 }}</p>
+                        <a href="№" class="btn btn-danger">Удалить</a>
+                    </div>
+                    <div class="card-footer text-body-secondary">Отправка {{ object.date_of_mail }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <nav aria-label="Items pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" tabindex="-1">Первая</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% else %}
+        <h1 class="h1 mb-3 fw-normal text-center">История отправки сообщений пуста</h1>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from mailing.models import Mailing, Client
+from mailing.models import Mailing, Client, Log
 from blog.models import Blog
 from mailing.forms import MailingForm, ClientForm
 from django.urls import reverse_lazy
@@ -98,3 +98,26 @@ class ClientUpdateView(LoginRequiredMixin, IsAdminOrUserMixin, UpdateView):
 class ClientDeleteView(LoginRequiredMixin, IsAdminOrUserMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mailing:list_client')
+
+
+class LogCreateView(CreateView):
+    pass
+
+
+class LogListView(LoginRequiredMixin, IsAdminOrUserMixin, ListView):
+    model = Log
+    paginate_by = 8
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        user = self.request.user
+        context_data['object_list'] = Mailing.objects.filter(user=user)
+        return context_data
+
+
+class LogDetailView(DetailView):
+    pass
+
+
+class LogDeleteView(DeleteView):
+    pass
